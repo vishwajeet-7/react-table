@@ -4,11 +4,20 @@ import { useTable, useGlobalFilter,useFilters } from "react-table";
 import { COLUMNS } from "./Column";
 import "./basicTable.css";
 import { GlobalFilter } from "./GlobalFilter";
+import { ColumnFilter } from "./ColumnFilter";
+import { DebounceGlobalFilter } from "./DebounceGlobalFilter";
 
 export const FilteringTable = () => {
   //usememo helps us in memoizing data of columns, so that we do not have to calculate the same data on each render
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => mockData, []);
+
+  //using this we can remove the Filters applied inside each column object separately
+  const defaultColumn = useMemo(()=>{
+    return {
+        Filter: ColumnFilter
+    }
+  },[])
 
   const {
     state,
@@ -19,12 +28,13 @@ export const FilteringTable = () => {
     rows,
     prepareRow,
     footerGroups,
-  } = useTable({ columns, data },useFilters, useGlobalFilter);
+  } = useTable({ columns, data, defaultColumn },useFilters, useGlobalFilter);
   const { globalFilter } = state;
 
   return (
     <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+    <DebounceGlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+      {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

@@ -1,30 +1,34 @@
 import {format} from 'date-fns'
 import { ColumnFilter } from './ColumnFilter'
 
+//removed the Filter in each object as using a new default column with filter 
+
 export const COLUMNS = [
     {
         Header:"ID",
         Footer:"ID",
         accessor:"id",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter,
+        // to disable a filter on a column || if it is simply removed then the website will be broken
+        disableFilters:true
     },
     {
         Header:'First Name',
         Footer:'First Name',
         accessor:"first_name",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
     {
         Header:'Last Name',
         Footer:'Last Name',
         accessor:"last_name",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
     {
         Header:'Date of Birth',
         Footer:'Date of Birth',
         accessor:"date_of_birth",
-        Filter:ColumnFilter,
+        //Filter:ColumnFilter,
         //to format a column
         Cell:({value})=>{return format(new Date(value),'dd/mm/yyyy')}
     },
@@ -32,25 +36,25 @@ export const COLUMNS = [
         Header:'Country',
         Footer:'Country',
         accessor:"country",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
     {
         Header:'Phone',
         Footer:'Phone',
         accessor:"phone",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
     {
         Header:'Age',
         Footer:'Age',
         accessor:"age",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
     {
         Header:'Email',
         Footer:'Email',
         accessor:"email",
-        Filter:ColumnFilter
+        //Filter:ColumnFilter
     },
 ]
 
