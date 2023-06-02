@@ -9,14 +9,14 @@ table {
     padding: 8px;
   }
   
-  table tr:nth-child(even){background-color: #f2f2f2;}
+  table tr:nth-child(even){background-color: #ebbcbc;}
   
   table tr:hover {background-color: #ddd;}
   
-  table th {
+  table th, tfoot td{
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: left;
-    background-color: #04AA6D;
+    text-align: center;
+    background-color: #ec0f0f;
     color: white;
   }

@@ -1,15 +1,16 @@
 import React, { useMemo } from "react";
 import mockData from "../mockdata.json";
-import { useTable } from "react-table";
-import { COLUMNS,GROUPED_COLUMNS } from "./Column";
+import { useTable,useSortBy } from "react-table";
+import { COLUMNS} from "./Column";
 import './basicTable.css';
+import {IoIosArrowDropupCircle,IoIosArrowDropdownCircle} from 'react-icons/io'
 
-export const BasicTable = () => {
+export const SortingTable = () => {
     //usememo helps us in memoizing data of columns, so that we do not have to calculate the same data on each render
-    const columns = useMemo(() => GROUPED_COLUMNS, []);
+    const columns = useMemo(() => COLUMNS, []);
     const data = useMemo(() => mockData, []);
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, footerGroups } = useTable({ columns, data });
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, footerGroups } = useTable({ columns, data },useSortBy);
 
     return (
         <table {...getTableProps()}>
@@ -17,7 +18,9 @@ export const BasicTable = () => {
                 {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
+                            <span>{column.isSorted ? (column.isSortedDesc ? <IoIosArrowDropdownCircle/> : <IoIosArrowDropupCircle/>) : ''}</span>
+                            </th>
                         ))}
                     </tr>
                 ))}
@@ -50,3 +53,4 @@ export const BasicTable = () => {
         </table>
     );
 };
+
