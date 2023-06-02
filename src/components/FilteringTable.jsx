@@ -28,11 +28,12 @@ export const FilteringTable = () => {
     rows,
     prepareRow,
     footerGroups,
-  } = useTable({ columns, data, defaultColumn },useFilters, useGlobalFilter);
+  } = useTable({ columns, data, defaultColumn },useFilters, useGlobalFilter); //hooks are used here
   const { globalFilter } = state;
 
   return (
     <>
+    {/* GlobalFilter component and DebounceGlobalFilter Component goes here */}
     <DebounceGlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
       <table {...getTableProps()}>
