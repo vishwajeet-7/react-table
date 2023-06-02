@@ -20,10 +20,13 @@ export const PaginationTable = () => {
     canPreviousPage,
     pageOptions, // to view which page we are on
     state,
+    gotoPage, // to move to a particular page
+    pageCount,
+    setPageSize, //to manipulate the number of results shown per page
     prepareRow,
-  } = useTable({ columns, data }, usePagination); //usePagination hook goes here
+  } = useTable({ columns, data, initialState:{pageIndex : 0} }, usePagination); //usePagination hook goes here
 
-  const {pageIndex} = state; //to get the page we are on
+  const { pageIndex,pageSize } = state; //to get the page we are on & set the page size
 
   return (
     <>
@@ -54,17 +57,44 @@ export const PaginationTable = () => {
         </tbody>
       </table>
       <div>
-          <span>
-            Page{' '}
-            <strong>
-                {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
-          </span>
+        <span>
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{" "}
+        </span>
+        {/* Function to jump to a specified page number */}
+        <span>
+            | Go to page: {' '}
+            <input type="number" defaultValue={pageIndex+1} onChange={(e)=>{
+                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
+                gotoPage(pageNumber)
+            }} style={{width:'50px'}}/>
+        </span>
+        <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
+            {
+                [10,25,50].map((pageSize)=> (
+                    <option key={pageSize} value={pageSize}>
+                        Show {pageSize}
+                    </option>
+                ))
+            }
+        </select>
       </div>
       {/* added two button to prev and next & added an event listener which will invoke PreviousPage and NextPage on click of the button */}
       <div>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>Prev</button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"<<"}
+        </button>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          Prev
+        </button>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          Next
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {">>"}
+        </button>
       </div>
     </>
   );
